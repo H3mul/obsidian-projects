@@ -146,10 +146,9 @@
             icon="check-circle"
             content={() => getTaskProgress(item.id, $app)} />
 
-          <Indicator
-            icon="weight"
-            content={weight}
-            display={() => weight > 1} />
+          {#if weight > 1}
+            <Indicator icon="weight" content={weight} />
+          {/if}
         </div>
       </ColorItem>
     </article>
