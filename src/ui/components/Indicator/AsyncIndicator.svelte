@@ -7,5 +7,7 @@
 </script>
 
 {#await content() then content}
-<Indicator {content} {icon} {display} />
+{#if display(content)}
+<Indicator {content} {icon} />
+{/if}
 {/await}
