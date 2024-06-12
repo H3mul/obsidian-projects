@@ -27,6 +27,8 @@
     OnRecordCheck,
     OnRecordDrop,
   } from "./types";
+  import AsyncIndicator from "src/ui/components/Indicator/AsyncIndicator.svelte";
+  import Indicator from "src/ui/components/Indicator/Indicator.svelte";
 
   export let items: DataRecord[];
   export let onRecordClick: OnRecordClick;
@@ -90,6 +92,7 @@
 >
   {#each items as item (item.id)}
     {@const color = getRecordColor(item)}
+    {@const weight = taskWeight(item)}
 
     <article
       class="projects--board--card"
@@ -143,21 +146,14 @@
         <CardMetadata fields={includeFields} record={item} />
 
         <div class=task-indicators>
-          {#await getTaskProgress(item.id, $app) then taskProgress}
-          {#if taskProgress}
-          <div class=task-progress>
-            <Icon name="check-circle" />
-            <span>{taskProgress}</span>
-          </div>
-          {/if}
-          {/await}
+          <AsyncIndicator
+            icon="check-circle"
+            content={() => getTaskProgress(item.id, $app)} />
 
-          {#if taskWeight(item) > 1 }
-          <div class=task-weight>
-            <Icon name="weight" />
-            <span>{taskWeight(item)}</span>
-          </div>
-          {/if}
+          <Indicator
+            icon="weight"
+            content={weight}
+            display={() => weight > 1} />
         </div>
       </ColorItem>
     </article>
@@ -165,7 +161,7 @@
 </div>
 
 <style>
-  div.card-header, div.task-indicators, div.task-indicators div {
+  div.card-header, div.task-indicators {
     display: flex;
     gap: 4px;
     align-items: center;
