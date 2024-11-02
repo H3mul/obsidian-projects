@@ -112,7 +112,7 @@
             <span class="checkbox-wrapper">
               <Checkbox
                 checked={checked(item)}
-                on:check={() => {
+                on:click={() => {
                   onRecordCheck(item);
                 }}
               />
